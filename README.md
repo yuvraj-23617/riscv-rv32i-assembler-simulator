@@ -1,67 +1,179 @@
-# RISC-V Assembler & Simulator
+# RISC-V RV32I Assembler & Simulator
 
-![Python Version](https://img.shields.io/badge/python-3.x-blue.svg)
-![RISC-V](https://img.shields.io/badge/Architecture-RISC--V%20RV32I-orange.svg)
-![Contributions](https://img.shields.io/badge/contributions-welcome-green)
+A Python-based implementation of a two-pass assembler and instruction-level simulator for the RISC-V RV32I instruction set architecture. The project translates human-readable RISC-V assembly programs into 32-bit machine code and executes them within a software-based simulation environment, providing detailed execution traces and memory state visualization.
 
-A precise, optimized, and robust two-pass Python-based Assembler and Simulator for the 32-bit RISC-V (RV32I) instruction set architecture. This project takes human-readable RISC-V assembly source code, encodes it into raw 32-bit binary machine code, and executes it via an accurate step-by-step architectural simulator.
+Developed as part of the Computer Organization curriculum, this project demonstrates concepts in instruction set architecture, machine code generation, processor execution flow, memory management, and low-level systems programming.
 
-Designed as part of the **CSE112 - Computer Organisation** course (Group 60), it is now enhanced to be modular, production-ready, and highly polished.
+---
 
-## Features
+## Key Features
 
 ### Assembler
-* **Robust 2-Pass Architecture:** Accurately resolves forward memory references and label addressing.
-* **Full RV32I Base Instruction Set:** Supports `R`, `I`, `S`, `B`, `U`, and `J` type instructions seamlessly.
-* **Smart Error Handling:** Provides robust feedback syntax checking (registers out of bounds, unknown opcode, incorrect parameter lengths).
-* **Bonus Pseudo-instructions:** Supported custom instructions out of the box (`rvrs`, `mul`, `halt`, `rst`).
+
+* **Two-Pass Assembly Process** for accurate label resolution and forward reference handling.
+* **Comprehensive RV32I Support**, including:
+
+  * R-Type Instructions
+  * I-Type Instructions
+  * S-Type Instructions
+  * B-Type Instructions
+  * U-Type Instructions
+  * J-Type Instructions
+* **Robust Syntax Validation** with detailed error reporting.
+* **Register and Operand Verification** to prevent invalid instruction encoding.
+* **Custom Instruction Extensions**, including:
+
+  * `rvrs`
+  * `mul`
+  * `halt`
+  * `rst`
 
 ### Simulator
-* **Cycle-Accurate Tracing:** Steps through standard memory and visualizes the state of the 32 generic registers after execution of each instruction.
-* **Memory Dump Support:** Post-execution memory state dump displaying memory addresses mapped accurately.
-* **Unsigned / 2's Complement Sign Extensions:** Uses fully validated bounds and binary wrapping conforming to RISC-V specifications.
-* **Execution Environment:** Handles exact PC calculations ensuring loop behaviors (e.g., `beq zero, zero, 0` for explicit `halt` looping architectures).
 
-##  Usage
+* **Instruction-Level Execution Engine** implementing RV32I execution semantics.
+* **Program Counter Tracking** with precise control-flow handling.
+* **Register State Visualization** after each instruction cycle.
+* **Memory State Dump Generation** for post-execution analysis.
+* **Two's Complement and Sign Extension Support** conforming to RV32I specifications.
+* **Branch and Jump Handling** with accurate address calculations.
 
-### 1. Assembler
+---
 
-Translate `assembly(.asm)` code into machine code `binary(.bin)` lines:
+## Architecture
 
-```bash
-# General Usage
-python Simple-Assembler/Assembler.py <input_asm_file> <output_bin_file>
+The project is divided into two independent modules:
 
-# Alternative: Standard Input/Output streaming
-python Simple-Assembler/Assembler.py < input.asm > output.bin
+### Assembler
+
+Converts assembly source code into executable binary machine code.
+
+```text
+Assembly Program
+        │
+        ▼
+   Two-Pass Parser
+        │
+        ▼
+ Label Resolution
+        │
+        ▼
+ Instruction Encoding
+        │
+        ▼
+   Binary Machine Code
 ```
 
-### 2. Simulator
+### Simulator
 
-Execute binary machine code lines to generate an architectural footprint and execution trace:
+Executes generated machine code and produces execution traces.
 
-```bash
-# General Usage
-python SimpleSimulator/Simulator.py <input_bin_file> <output_trace_file>
-
-# Alternative: Standard Input/Output streaming
-python SimpleSimulator/Simulator.py < input.bin > trace.txt
+```text
+Binary Machine Code
+         │
+         ▼
+ Instruction Decoder
+         │
+         ▼
+ Execution Engine
+         │
+         ▼
+ Register Updates
+         │
+         ▼
+ Memory Operations
+         │
+         ▼
+ Execution Trace
 ```
+
+---
 
 ## Project Structure
 
 ```text
- RISC-V Assembler & Simulator
- ┣ Simple-Assembler
- ┃ ┣  Assembler.py          # The core assembler implementation
- ┃ ┗  run                   # Utility bash script runner
- ┣ SimpleSimulator
- ┃ ┣  Simulator.py          # The RISC-V simulation engine
- ┃ ┣  Input_Sim.txt         # Example simulation input binary
- ┃ ┗  Output_Sim.txt        # Validated execution trace output
- ┗  README.md               # You're reading this!
+riscv-rv32i-assembler-simulator
+│
+├── Simple-Assembler/
+│   ├── Assembler.py
+│   └── run
+│
+├── SimpleSimulator/
+│   ├── Simulator.py
+│   ├── Input_Sim.txt
+│   └── Output_Sim.txt
+│
+├── stdin.txt
+└── README.md
 ```
 
-##  Authors 
-* **Satyam**
+---
 
+## Requirements
+
+* Python 3.8+
+* No external dependencies required
+
+---
+
+## Usage
+
+### Assemble a Program
+
+```bash
+python Simple-Assembler/Assembler.py input.asm output.bin
+```
+
+Alternatively:
+
+```bash
+python Simple-Assembler/Assembler.py < input.asm > output.bin
+```
+
+### Simulate Machine Code
+
+```bash
+python SimpleSimulator/Simulator.py output.bin trace.txt
+```
+
+Alternatively:
+
+```bash
+python SimpleSimulator/Simulator.py < output.bin > trace.txt
+```
+
+---
+
+## Learning Outcomes
+
+This project provided practical experience in:
+
+* Computer Organization and Architecture
+* Instruction Set Design
+* Assembly Language Processing
+* Machine Code Generation
+* Processor Simulation
+* Memory and Register Management
+* Systems Programming
+* Python-Based Software Engineering
+
+---
+
+## Future Enhancements
+
+* Support for additional RISC-V extensions (M, C, and F)
+* Pipeline simulation and hazard detection
+* Cache memory simulation
+* Graphical visualization of execution flow
+* Interactive debugging environment
+* Performance profiling and benchmarking
+
+---
+
+## Author
+
+**Yuvraj Verma**
+
+Computer Science and Bioscience
+Indraprastha Institute of Information Technology Delhi (IIIT-Delhi)
+
+GitHub: https://github.com/yuvraj-23617
